@@ -1,0 +1,19 @@
+{
+  "name": "minimal-logger",
+  "version": "1.0.0",
+  "description": "distributed logger with traceId support",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "distributed",
+    "logger",
+    "traceId",
+    "correlationId",
+    "pino-correlation",
+    "pino-traceId"
+  ],
+  "author": "Harish Sambasivam",
+  "license": "ISC"
+}
