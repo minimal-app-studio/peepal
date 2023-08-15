@@ -1,5 +1,8 @@
 
+const http = require('http');
+const https = require('https');
 const context = require('./async-context.js');
+const { config } = require('process');
 
 const originals = {
     http: {
@@ -15,29 +18,23 @@ const originals = {
 };
 
 
-function inject(options) {
-    options.headers[traceHeader] = context.getStore().get(traceHeader);
+function inject(options, config) {
+    options.headers[config.headerToPropagate] = context.getStore().get(config.headerToPropagate);
 }
 
-function injectInResponse(response, headers) {
-    if (tracer.currentTrace) {
-        headers.forEach(header => {
-            if (tracer.currentTrace.context.has(header)) {
-                response.setHeader(header, tracer.currentTrace.context.get(header));
-            }
-        });
-    }
+function injectInResponse(response, config) {
+                response.setHeader(config.headerToPropagate, context.getStore().get(config.headerToPropagate));
 }
 
 function wrapRequest(originalMethod, config) {
     function urlFirst(url, options, cb) {
-        inject(options, config.headersToInject);
+        inject(options, config);
 
         return originalMethod(url, options, cb);
     }
 
     function optionsFirst(options, cb) {
-        inject(options, config.headersToInject);
+        inject(options, config);
 
         return originalMethod(options, cb);
     }
@@ -60,7 +57,7 @@ function wrapRequest(originalMethod, config) {
 function wrappedListener(config, listener) {
     return (req, res, next) => {
         if (config.propagateInResponses) {
-            injectInResponse(res, config.headersToInject);
+            injectInResponse(res, config);
         }
         listener(req, res, next);
     };

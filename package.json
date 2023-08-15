@@ -7,12 +7,13 @@
     "test": "echo \"Error: no test specified\""
   },
   "keywords": [
-    "distributed",
+    "distributed logger",
     "logger",
     "traceId",
     "correlationId",
     "pino-correlation",
-    "pino-traceId"
+    "pino-traceId",
+    "peepal"
   ],
   "author": "Harish Sambasivam",
   "license": "ISC",

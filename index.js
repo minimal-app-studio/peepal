@@ -1,6 +1,6 @@
 const pino = require('pino');
 const uuid = require('uuid');
-const wrapModule = require("./propagate");
+const { wrapModule } = require("./propagate");
 
 const http = require('http');
 const https = require('https');
@@ -34,6 +34,15 @@ module.exports.peepal = function (options = {}) {
       return Reflect.get(target, property, receiver);
     },
   });
+
+  wrapModule('https', https, {
+    headerToPropagate: traceHeader
+  });
+  
+  wrapModule('http', http, {
+    headerToPropagate: traceHeader
+  });
+
   return peepal;
 };
 
@@ -51,12 +60,4 @@ module.exports.contextMiddleware = (req, res, next) => {
   store.set(traceHeader, traceId);
   return context.run(store, next);
 };
-
-wrapModule('https', https, {
-  headersToPropagate: [traceHeader]
-});
-
-wrapModule('http', http, {
-  headersToPropagate: [traceHeader]
-});
 
