@@ -1,6 +1,6 @@
 {
   "name": "peepal",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "distributed logger with traceId support",
   "main": "index.js",
   "scripts": {
