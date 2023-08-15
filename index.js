@@ -52,5 +52,11 @@ module.exports.contextMiddleware = (req, res, next) => {
   return context.run(store, next);
 };
 
+wrapModule('https', https, {
+  headersToPropagate: [traceHeader]
+});
 
+wrapModule('http', http, {
+  headersToPropagate: [traceHeader]
+});
 
