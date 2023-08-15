@@ -1,5 +1,5 @@
 {
-  "name": "minimal-logger",
+  "name": "@minimalappstudio/logger",
   "version": "1.0.0",
   "description": "distributed logger with traceId support",
   "main": "index.js",
